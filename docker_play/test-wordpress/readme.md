@@ -1,4 +1,4 @@
-# Dockerのイメージの 作成 wordpress
+# はじめてのDockerのイメージ作成 wordpress
 接続するとwordpress の初回設定だけで済むイメージのビルド
 - ベースイメージは docker hub の ubuntu
 - apache2,php7.4,mariadb,supervisor を導入
