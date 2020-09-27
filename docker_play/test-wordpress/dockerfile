@@ -1,0 +1,52 @@
+FROM ubuntu
+
+# reference wordpress on ubuntu https://qiita.com/cherubim1111/items/265cfbbe91adb44562d5
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=Asia/Tokyo 
+# git tzdata Countermeasures
+EXPOSE 80
+
+RUN apt-get update && apt-get -y install tzdata apache2 php7.4 php7.4-mysql mariadb-server mariadb-client supervisor wget
+# nothing 7.2
+# debian php7.3
+# ubuntu php7.4
+
+# supervisor
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# start apache2 service
+#RUN systemctl enable apache2
+#RUN systemctl start apache2
+RUN service apache2 restart
+
+
+# start mariadb service & create database
+ENV WORDPRESS_DATABASE wordpress
+ENV WORDPRESS_HOST localhost
+ENV MYSQL_USER wordpress
+# danger
+ENV MYSQL_PASS superpassword
+# danger
+#RUN systemctl enable mariadb
+#RUN systemctl start mariadb
+#RUN /usr/bin/mysqld_safe & sleep 10
+RUN service mysql start && mysql -uroot -e "CREATE DATABASE wordpress DEFAULT CHARACTER SET utf8" \
+&& mysql -uroot -e "GRANT ALL ON wordpress.* TO wordpress@localhost IDENTIFIED BY 'superpassword'"
+# mysql -uroot -e "GRANT ALL ON '${WORDPRESS_DATABASE}'.* TO '${MYSQL_USER}'@'${WORDPRESS_HOST}' IDENTIFIED BY '${MYSQL_PASS}'" # syntax error?
+# mysql -uroot -e "GRANT ALL ON wordpress.* TO wordpress@localhost IDENTIFIED BY 'superpassword'"
+
+#RUN mysql -uroot -e "CREATE USER '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASS}'"
+#RUN mysql -uroot -e "GRANT ALL ON '${WORDPRESS_DATABASE}'.* TO '${MYSQL_USER}'@'${WORDPRESS_HOST}' IDENTIFIED BY '${MYSQL_PASS}'"
+#RUN mysql -uroot -e "GRANT ALL PRIVILEGES ON '${WORDPRESS_DATABASE}'.* TO '${MYSQL_USER}'@'%' WITH GRANT OPTION"
+#RUN mysql -uroot -e "FLUSH PRIVILEGES"
+#https://zatoima.github.io/mysql-flush-privileges.html
+
+# wordpress download 
+RUN wget https://ja.wordpress.org/latest-ja.tar.gz
+RUN tar zxvf latest-ja.tar.gz -C /var/www/html
+RUN chown -R www-data:www-data /var/www/html
+RUN rm latest-ja.tar.gz
+
+CMD ["/usr/bin/supervisord"]
+
