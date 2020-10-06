@@ -98,7 +98,7 @@ def memo_write():
     speak("ファイル名は何にしますか")
     memoname = TakeCommand()
     """
-    os.system("notepad C:\\Users\\mephistpheles\\Desktop\\"+memoname+".txt")
+    os.system("notepad C:\\Users\\<user>\\Desktop\\"+memoname+".txt")
     time.sleep(2)
     pag.press('enter')
     while True:
@@ -116,7 +116,7 @@ def memo_write():
     pag.hotkey('ctrl','w')
     """
     # テストしてないから上手くいくか分からん
-    file = open("C:\\Users\\mephistpheles\\Desktop\\"+memoname+".txt","w")
+    file = open("C:\\Users\\<user>\\Desktop\\"+memoname+".txt","w")
     while True:
         speak("話したことを記録します。")
         query = TakeCommand()
@@ -130,7 +130,7 @@ def screenshot():
     img = pag.screenshot()
     speak("スクリーンショットを保存する名前はどうしますか")
     picname = TakeCommand()
-    img.save("C:\\Users\\mephistpheles\\Pictures\\Camera Roll\\"+picname+".png")
+    img.save("C:\\Users\\<user>\\Pictures\\Camera Roll\\"+picname+".png")
 
 if __name__ == "__main__":
     #greeting_()
@@ -158,7 +158,7 @@ if __name__ == "__main__":
         elif "検索" in query: #chrome検索
             speak("何を検索しますか")
             query = TakeCommand()
-            driver = webdriver.Chrome('C:\\Users\\mephistpheles\\Downloads\\chdriver\\chromedriver.exe')
+            driver = webdriver.Chrome('C:\\Users\\<user>\\Downloads\\chdriver\\chromedriver.exe')
             driver.get('http://www.google.com/')
             search_box = driver.find_element_by_name("q")
             search_box.send_keys(query)
@@ -169,7 +169,7 @@ if __name__ == "__main__":
         elif "youtube" in query.lower(): # youtube
             speak("youtubeを使います。何を検索しますか。")
             query = TakeCommand()
-            driver = webdriver.Chrome('C:\\Users\\mephistpheles\\Downloads\\chdriver\\chromedriver.exe')
+            driver = webdriver.Chrome('C:\\Users\\<user>\\Downloads\\chdriver\\chromedriver.exe')
             driver.get('http://www.youtube.com/results?search_query='+ query)
             time.sleep(10)
             driver.quit()
@@ -181,7 +181,7 @@ if __name__ == "__main__":
 
         elif "line" in query.lower(): # open line
             speak("LINEを開きます。")
-            line_app = r'C:\Users\mephistpheles\AppData\Local\LINE\bin\current\LINE.exe'
+            line_app = r'C:\Users\<user>\AppData\Local\LINE\bin\current\LINE.exe'
             os.startfile(line_app)
             # 閉じ方分からん
 
@@ -195,7 +195,7 @@ if __name__ == "__main__":
 
         elif "音楽を再生" in query: # play music
             speak("音楽を再生します")
-            song_dir = r"C:\Users\mephistpheles\Music\anisong\stardriver"
+            song_dir = r"C:\Users\<user>\Music\anisong\stardriver"
             music = os.listdir(song_dir)
             speak("何を再生しますか")
             ans = TakeCommand()
