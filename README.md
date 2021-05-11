@@ -1,9 +1,9 @@
 # Misc
-暇つぶしの遊び
+play room
 
 ## JARVIS-chal
-暇つぶしに作成した会話型支援bot
+A bot like JARVIS
 
 ## docker_play
-docker遊びの記録
+record playing docker
 
